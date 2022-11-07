@@ -1,47 +1,30 @@
 import { useEffect, useRef, useState } from 'react';
-import { inc } from 'semver';
-import Timer from './timer';
 
-//ref는 렌더링 되기전까지 저장함
-//let 변수도 렌더링 되기전까지 저장
-//let은 렌더링되면 값이 초기화됨 ref는 언마운트전까지 계속 저장함
 
+// input ref={ref}를 통해서 자동으로 편의성에 맞게 포커싱을 맞춰준다 
 function App() {
+  const inRef=useRef()
+  
+  useEffect(() => {
+    console.log('inRef', inRef)
+    inRef.current.focus()
+  }, []);
 
-  const [render,setRender]=useState(0)
-
-  const countRef=useRef(0)
-
-  let countVar=0;
-
-  const doRender=()=>{
-    setRender(render+1)
+  const login =()=>{
+    alert(`환영합니다 ${inRef.current.value}`)
+    inRef.current.focus()
   }
-
-  const increaseref=()=>{
-    countRef.current=countRef.current+1
-    console.log('ref:',countRef.current)
-  }
-
-
-  const increasevar=()=>{
-    countVar=countVar+1
-    console.log('var:',countVar)
-  }
-
-  const print=()=>{
-    console.log(`ref:${countRef.current}, var:${countVar}`)
-  }
+  // const increaseref=()=>{
+  //   countRef.current=countRef.current+1
+  //   console.log('ref:',countRef.current)
+  // }
 
   // console.log(countRef.current)
   return(
     <div>
-      <p>Var:{countVar}</p>
-      <p>Ref:{countRef.current}</p>
-      <button onClick={doRender}> 렌더링</button>
-      <button onClick={increasevar}>+var</button>
-      <button onClick={increaseref}>+ref</button>
-      <button onClick={print}>ref var</button>
+      <input ref={inRef} placeholder = 'name'></input>
+      
+      <button onClick={login}> 로그인</button>
     </div>
   )
 }
