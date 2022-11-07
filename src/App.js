@@ -1,37 +1,44 @@
+import { useEffect, useState } from 'react';
 
-import logo from './logo.svg';
-import './App.css';
-import { useState } from 'react';
-
- const heavyWork = ()=>{
-  console.log('헤비')
-  return ['홍길동','김민수']
- }
 
 function App() {
-  const [names,setName] = useState(()=>{
-    return heavyWork()
-  })
-  const [input,setInput] = useState("")
+  const [count,setCount] = useState(1)
+  const [name,setName] = useState('')
 
-  const handleInputChange = (e) => {
-    setInput(e.target.value)
+  const handleInputChange = () => {
+    setCount(count+1)
+  }
+  const handleTextChange = (e) => {
+    setName(e.target.value)
   }
 
-  const handleUpload = ()=>{
-    setName ((prevState)=>{
-      console.log(prevState)
-      return [input,...prevState]
-    })}
+
+
+  useEffect(()=>{
+    console.log('모든렌더링')
+  })//dependency array
   
+
+  useEffect(()=>{
+    console.log('마운트+카운터')
+  },[count])//dependency array
+  
+  useEffect(()=>{
+    console.log('마운트+내임')
+  },[name])//dependency array
+
+
+  useEffect(()=>{
+    console.log('마운트만')
+  },[])//dependency array  
   
   return (
     <div>
-     <input type="text" value={input} onChange={handleInputChange}/>
-     <button onClick={handleUpload}>Update</button>
-     {names.map((name,idx) =>{
-      return <p key={idx}> {name}</p>
-     })}
+     
+     <button onClick={handleInputChange}>Update</button>
+     <span>count:{count}</span>
+     <input type="text" value={name} onChange={handleTextChange}/>
+     <span>{name}</span>
     </div>
   )
 }
