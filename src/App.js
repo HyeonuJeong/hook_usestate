@@ -1,32 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
+
+import { useState } from 'react';
+import Page from './components/Page';
+import './App.css';
+import {ThemeContext} from './context/ThemeContext';
+import { UserContext } from './context/UserContext';
 
 
-// input ref={ref}를 통해서 자동으로 편의성에 맞게 포커싱을 맞춰준다 
+//컨텍스트 사용
+//프롭 드릴링 방지 효과
+// .provider 로 랩핑
+
+
 function App() {
-  const inRef=useRef()
+  const [isDark, setIsDark] = useState(false);
+
   
-  useEffect(() => {
-    console.log('inRef', inRef)
-    inRef.current.focus()
-  }, []);
-
-  const login =()=>{
-    alert(`환영합니다 ${inRef.current.value}`)
-    inRef.current.focus()
-  }
-  // const increaseref=()=>{
-  //   countRef.current=countRef.current+1
-  //   console.log('ref:',countRef.current)
-  // }
-
-  // console.log(countRef.current)
-  return(
-    <div>
-      <input ref={inRef} placeholder = 'name'></input>
-      
-      <button onClick={login}> 로그인</button>
-    </div>
-  )
+  return (
+    <UserContext.Provider value={'사용자'}>
+    <ThemeContext.Provider value={{isDark,setIsDark}}>
+    <Page/>
+    </ThemeContext.Provider>
+    </UserContext.Provider>
+  );
 }
+
 
 export default App;
